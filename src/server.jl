@@ -12,8 +12,9 @@ const conditions = Dict{String,Condition}()
 conditions["connected"] = Condition()
 conditions["unloaded"] = Condition()
 
-Endpoint("/Pages.js") do request::Request
-    readstring(joinpath(dirname(@__FILE__),"Pages.js"))
+# this should no longer be nesesary ...maybe
+Endpoint("/pages.js") do request::Request
+    readstring(joinpath(dirname(@__FILE__),"/pages.js"))
 end
 
 ws = WebSocketHandler() do request::Request, client::WebSocket
@@ -40,7 +41,6 @@ http = HttpHandler() do request::Request, response::Response
         # We will be serving from folder but is a file specified?
         if length(folder) < length(route) # Yes, it is!
             file = replace(route, r"^(\/[\d\w- _]+)", "");
-            println(file)
 
         # No, no file specified so we will specify the standard default "/index.html"
         else
