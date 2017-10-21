@@ -1,0 +1,38 @@
+/* this is to test/show that different files are being sent and recieved with the
+# correct mime-type and usable by the browser. */
+
+*, body{ padding: 0px; margin: 0px:}
+
+.js-plotly-plot{
+    vertical-align: text-top;
+    display:inline-block;
+    margin:20px;
+    padding: 10px;
+    background: #47a0bd;
+    border: thin solid black;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.75);
+}
+#head{
+    background: #47a0bd;
+    color: white;
+    font-size: 2em;
+    padding: 5px;
+    margin: 0px;
+    font-style: oblique bold;
+}
+.textBox {
+    vertical-align: text-top;
+    max-width: 450px;
+    display:inline-block;
+    margin:20px;
+    padding: 10px;
+    background: #d4cea9;
+    border: thin solid black;
+    border-radius: 5px;
+    -webkit-box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.75);
+box-shadow: 0px 0px 16px 1px rgba(0,0,0,0.75);
+}

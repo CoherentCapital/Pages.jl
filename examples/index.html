@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="/MyCoolSite/css/Styles.css" />
+	<script src="/MyCoolSite/libs/js/pages.js"></script>
+	<script src="/MyCoolSite/libs/d3/v4.2.1/d3.min.js"></script>
+	<script src="/MyCoolSite/libs/plotly/v1.16.1/plotly.min.js"></script>
+</head>
+<body>
+<div id="head">Test PagesJL as website server!</div>
+<div class="textBox">This is similar to (basically a copy) the plotly.jl example but modified to
+	 demonstrate that pages and documents can effectively be fetched from within
+	 a "folder" the drawback to the method I am employing is that instead of just
+	 writing: <br>&lt;link rel=\"stylesheet\" href=\"/css/Styles.css\" /&gt;<br><br>
+	 You have to specify the folder as well. Like this:
+ 	<br>&lt;link rel=\"stylesheet\" href=\"/MyCoolSite/css/Styles.css\" /&gt;<br>
+	It may be possible to fix this and conform more closely to standards by inserting
+	the folder name automattically before each request is sent. I'm open to suggestions!</div>
+
+</body>
+</html>
