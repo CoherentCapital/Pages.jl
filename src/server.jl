@@ -30,6 +30,34 @@ end
 # For external websocket connections not from a page served locally, e.g. IJulia
 const external = Dict{String,WebSocket}()
 
+# Keep track of additional request information (e.g. url vars)
+# Warning: ideally we shouldn't use a global lookup table but I don't know
+#   how to inject the URI Dict into the Request object in HTTP.jl 
+const uri_vars = Dict{HTTP.Request,Dict}()
+
+# Get the value of a variable specified in the URL
+getvar(req, k) = uri_vars[req][k]
+
+# Populate uri_vars for this request with a dict of variables extracted from the uri
+# For example,
+#    route     = regex that represents routespec below
+#    routespec = "/ticket/<event>/<date>
+#    uri       = "/ticket/lakers/2018-03-31
+# would return
+#    Dict("event" => "lakers", "date" => "2018-03-31")
+function populate_uri_dict!(request, ep, uri)
+    d = Dict{String,String}()
+    m = match(ep.route, uri)
+    if length(m.captures) > 0
+        v = matchall(r"<[^>]+>", ep.routespec)
+        v = [strip(x, ['<','>']) for x in v]
+        for (i, s) in enumerate(v)
+            d[s] = m.captures[i]
+        end
+    end
+    uri_vars[request] = d
+end
+
 function start(p = 8000)
     global port = p
     HTTP.listen(ip"127.0.0.1",p) do http
@@ -54,9 +82,16 @@ function start(p = 8000)
                 end
             end
         else
-            route = HTTP.URI(http.message.target).path
-            if haskey(pages,route)
-                HTTP.Servers.handle_request(pages[route].handler,http)
+            # println("matching $(http.message.target)")
+            ep = matchroute(pages, http.message.target)
+            println("match route result => $ep")
+            if ep != nothing
+                populate_uri_dict!(http.message, ep, HTTP.URI(http.message.target).path)
+                try
+                    HTTP.Servers.handle_request(ep.handler,http)
+                finally
+                    delete!(uri_vars, http.message)
+                end
             else
                 HTTP.Servers.handle_request((req) -> HTTP.Response(404),http)
             end
